@@ -16,7 +16,7 @@ final class MovieHomeController: UIViewController {
     
     // MARK: - UI Elements
     
-    private lazy var tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         return tableView
     }()
@@ -25,9 +25,11 @@ final class MovieHomeController: UIViewController {
         let search = UISearchController()
         return search
     }()
+    
     private let service = Services()
     private var search = [Search]()
     private var viewModel: MovieHomeProtocol = MovieHomeViewModel(service: Services())
+    
     
     // MARK: - Life Cycle
     

@@ -16,102 +16,36 @@ class MovieDetailScreen: UIViewController {
     private var detailResults: DetailResults
     var imdbID: String = String()
     
-    private let imdbView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray.withAlphaComponent(0.2)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = false
-        view.layer.cornerRadius = 40
-        view.layer.borderColor = UIColor.white.cgColor
-        view.layer.borderWidth = 5
-        return view
-    }()
-    
-    private let detailView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = false
-        view.layer.cornerRadius = 30
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 2
-        return view
-    }()
-    
-    private let containerView : UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private let imageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.layer.cornerRadius = 20
+        return image
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.isHidden = false
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textAlignment = .center
+        label.font = .boldSystemFont(ofSize: 22)
+        label.textColor = .systemIndigo
         return label
     }()
-    
-    private let imdbRatingLabel: UILabel = {
-        let label = UILabel()
-        label.isHidden = false
-        label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textColor = .white
-        label.textAlignment = .center
-        return label
-    }()
-    
     private let genreLabel: UILabel = {
         let label = UILabel()
-        label.isHidden = false
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 17)
-        label.textAlignment = .center
         label.textColor = .systemGray
         return label
     }()
     
     private let plotLabel: UILabel = {
         let label = UILabel()
-        label.isHidden = false
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 18)
-        label.textAlignment = .center
         return label
     }()
-    
-    private let directorLabel: UILabel = {
-        let label = UILabel()
-        label.isHidden = false
-        label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let writerLabel: UILabel = {
-        let label = UILabel()
-        label.isHidden = false
-        label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let actorsLabel: UILabel = {
-        let label = UILabel()
-        label.isHidden = false
-        label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textAlignment = .center
-        return label
-    }()
-    
     private let informationLabel: UILabel = {
         let label = UILabel()
-        label.isHidden = false
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 22)
         label.textAlignment = .center
@@ -138,173 +72,53 @@ class MovieDetailScreen: UIViewController {
         drawDesign()
         setUp()
         makeContainerView()
-        makeDetailView()
-        makeTitleLabel()
-        makeImdbRatingLabel()
-        makePlotLabel()
-        makeGenreLabel()
-        makeDirectorLabel()
-        makeWriterLabel()
-        makeActorsLabel()
-        makeImdbView()
-        makeInformationLabel()
     }
     
     func drawDesign() {
         view.backgroundColor = .white
+        imageView.layer.cornerRadius = 100
     }
     
     func addSubviews() {
-        view.addSubview(containerView)
-        view.addSubview(informationLabel)
-//        containerView.addSubview(movieImage)
-        containerView.addSubview(imdbView)
-        containerView.addSubview(detailView)
-        containerView.addSubview(titleLabel)
-        containerView.addSubview(imdbRatingLabel)
-        containerView.addSubview(plotLabel)
-        containerView.addSubview(genreLabel)
-        containerView.addSubview(directorLabel)
-        containerView.addSubview(writerLabel)
-        containerView.addSubview(actorsLabel)
-        
+        view.addSubview(imageView)
+        view.addSubview(titleLabel)
+        view.addSubview(genreLabel)
+        view.addSubview(plotLabel)
     }
-
-    
     func setUp() {
+        imageView.kf.setImage(with: URL(string: detailResults.poster))
         titleLabel.text = detailResults.title
-        imdbRatingLabel.text = """
-        IMDB
-        \(detailResults.imdbRating)
-        """
-        plotLabel.text = detailResults.plot
         genreLabel.text = detailResults.genre
-        directorLabel.text = """
-        Director
-        \(detailResults.director)
-        """
-        writerLabel.text = """
-        Writer
-        \(detailResults.writer)
-        """
-        actorsLabel.text = """
-        Actors
-        \(detailResults.actors)
-        """
+        plotLabel.text = detailResults.plot
     }
-    
-    func hideLabels(_ status: Bool){
-        titleLabel.isHidden = status
-        plotLabel.isHidden = status
-        genreLabel.isHidden = status
-        directorLabel.isHidden = status
-        writerLabel.isHidden = status
-        actorsLabel.isHidden = status
-    }
-    
-    func reverseHideLabels(_ status: Bool){
-        imdbRatingLabel.isHidden = status
-        imdbView.isHidden = status
-        informationLabel.isHidden = status
-        
-        titleLabel.isHidden = status
-        plotLabel.isHidden = status
-        genreLabel.isHidden = status
-        directorLabel.isHidden = status
-        writerLabel.isHidden = status
-        actorsLabel.isHidden = status
-    }
-    
 }
 
 extension MovieDetailScreen {
     
-    
     private func makeContainerView() {
-        containerView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(20)
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(200)
-            
+        imageView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.height.equalTo(view.frame.height / 2.24)
+            make.left.equalTo(view).offset(10)
+            make.right.equalTo(view).inset(10)
         }
-    }
-    
-    private func makeInformationLabel() {
-        informationLabel.snp.makeConstraints { make in
-            make.top.equalTo(containerView.snp.bottom).offset(20)
-            make.left.right.equalTo(containerView)
-        }
-    }
-    
-    private func makeImdbView() {
-        imdbView.snp.makeConstraints { make in
-            make.top.equalTo(containerView).offset(10)
-            make.height.width.equalTo(80)
-            make.right.equalTo(containerView).inset(10)
-        }
-    }
-    
-    private func makeDetailView() {
-        detailView.snp.makeConstraints { make in
-            make.center.equalTo(containerView)
-            make.height.width.equalTo(containerView)
-        }
-    }
-    
-    private func makeTitleLabel() {
+        
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(containerView).offset(10)
-            make.centerX.equalTo(containerView)
-            make.left.equalTo(containerView).offset(10)
-            make.right.equalTo(containerView).inset(10)
+            make.top.equalTo(imageView.snp.bottom).offset(20)
+            make.left.equalTo(view).offset(8)
+            make.right.equalTo(view).inset(8)
         }
-    }
-    
-    private func makeImdbRatingLabel() {
-        imdbRatingLabel.snp.makeConstraints { make in
-            make.center.equalTo(imdbView)
-        }
-    }
-    
-    private func makePlotLabel() {
-        plotLabel.snp.makeConstraints { make in
-            make.top.equalTo(genreLabel.snp.bottom).offset(10)
-            make.right.left.equalTo(titleLabel)
-            make.centerX.equalTo(containerView)
-        }
-    }
-    
-    private func makeGenreLabel() {
+
         genreLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.centerX.equalTo(containerView)
-            make.left.right.equalTo(titleLabel)
+            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+            make.left.equalTo(view).offset(8)
+            make.right.equalTo(view).inset(8)
+        }
+
+        plotLabel.snp.makeConstraints { make in
+            make.top.equalTo(genreLabel.snp.bottom).offset(8)
+            make.left.equalTo(view).offset(8)
+            make.right.equalTo(view).inset(8)
         }
     }
-    
-    private func makeDirectorLabel() {
-        directorLabel.snp.makeConstraints { make in
-            make.top.equalTo(plotLabel.snp.bottom).offset(10)
-            make.centerX.equalTo(containerView)
-            make.left.right.equalTo(titleLabel)
-        }
-    }
-    
-    private func makeWriterLabel() {
-        writerLabel.snp.makeConstraints { make in
-            make.top.equalTo(directorLabel.snp.bottom).offset(10)
-            make.centerX.equalTo(containerView)
-            make.left.right.equalTo(titleLabel)
-        }
-    }
-    
-    private func makeActorsLabel() {
-        actorsLabel.snp.makeConstraints { make in
-            make.top.equalTo(writerLabel.snp.bottom).offset(10)
-            make.centerX.equalTo(containerView)
-            make.left.right.equalTo(titleLabel)
-        }
-    }
-    
 }

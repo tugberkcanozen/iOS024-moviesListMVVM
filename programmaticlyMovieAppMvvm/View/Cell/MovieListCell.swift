@@ -27,7 +27,7 @@ class MovieHomeTableViewCell: UITableViewCell {
             return label
         }()
         
-        // ImageViews
+        // MARK: - ImageViews
         private var cellImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.layer.cornerRadius = 75
@@ -48,7 +48,7 @@ class MovieHomeTableViewCell: UITableViewCell {
             return imageView
         }()
         
-        // StackViews
+        // MARK: - StackViews
         private let verticalStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
